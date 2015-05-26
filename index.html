@@ -4,11 +4,29 @@
     </head>
     
 <body>
-      <div class="header" id="bar">
-            <div class="header" id="account">
-                <p class="account" id="logtext">Logged in as: </p><p class="account" id="usertext">User</p>
-            </div>
-            <input class="header" id="logo" type="image" src="img/logo.png">
+    <div class="header" id="bar">
+        <div class="header" id="account">
+            <p class="account" id="logtext">Logged in as: </p><p class="account" id="usertext">User</p>
         </div>
+        <input class="header" id="logo" type="image" src="img/logo.png">
+    </div>
+    <div id="content">
+        <div class="question">
+            <div class="vote">
+                <img class="voteup" src="img/uparrow.png" onmouseover="this.src='/img/clickeduparrow.png'" onmouseout="this.src='/img/uparrow.png'">
+                <div class="count">
+                </div>
+                <img class="votedown" src="img/downarrow.png" onmouseover="this.src='/img/clickeddownarrow.png'" onmouseout="this.src='/img/downarrow.png'">
+            </div>
+            <p>Question #1</p>
+        </div>
+        <div class="question">
+            <div class="vote">
+                <img class="voteup" src="img/uparrow.png">
+                <img class="votedown" src="img/downarrow.png">
+            </div>
+            <p>Question #2</p>
+        </div>
+    </div>
 </body>
 </html>
