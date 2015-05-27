@@ -1,6 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
     </head>
     
 <body>
@@ -11,21 +12,30 @@
         <input class="header" id="logo" type="image" src="img/logo.png">
     </div>
     <div id="content">
-        <div class="question">
+        <div class="questioncontainer">
             <div class="vote">
                 <img class="voteup" src="img/uparrow.png" onmouseover="this.src='/img/clickeduparrow.png'" onmouseout="this.src='/img/uparrow.png'">
                 <div class="count">
+                    <p class="countnumber">8</p>
                 </div>
                 <img class="votedown" src="img/downarrow.png" onmouseover="this.src='/img/clickeddownarrow.png'" onmouseout="this.src='/img/downarrow.png'">
             </div>
-            <p>Question #1</p>
-        </div>
-        <div class="question">
-            <div class="vote">
-                <img class="voteup" src="img/uparrow.png">
-                <img class="votedown" src="img/downarrow.png">
+            <a href="http://google.com">
+            <div class="question">
+                <p class="questiontitle">Question #1 This is a question displayed on Keystone Moderator</p>
             </div>
-            <p>Question #2</p>
+            </a>
+        </div>
+        </a>
+        <div class="questioncontainer">
+            <div class="vote">
+                <img class="voteup" src="img/uparrow.png" onmouseover="this.src='/img/clickeduparrow.png'" onmouseout="this.src='/img/uparrow.png'">
+                <div class="count">
+                    <p class="countnumber">8</p>
+                </div>
+                <img class="votedown" src="img/downarrow.png" onmouseover="this.src='/img/clickeddownarrow.png'" onmouseout="this.src='/img/downarrow.png'">
+            </div>
+            <p class="questiontitle">Question #2 This is also a question displayed on Keystone Moderator</p>
         </div>
     </div>
 </body>
