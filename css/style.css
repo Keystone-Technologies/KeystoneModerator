@@ -19,6 +19,21 @@ body {
     color: #ffffff;
 }
 
+#questionbutton {
+    margin: 1px;
+    height: 40px;
+    position: absolute;
+    z-index: 2;
+    background-color: #6d9d41;
+    border-radius: 10px;
+    border: 3px solid #005200;
+}
+
+#questionbutton:hover {
+    background-color: #70E270;
+    cursor: pointer;
+}
+
 #bar {
     position: fixed;
     width: 100%;
@@ -205,6 +220,4 @@ h3 {
     margin-right: 5px;
 }
 
-.answertext {
-    margin: 10px;
-}
+
