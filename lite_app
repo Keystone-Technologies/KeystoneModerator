@@ -16,6 +16,12 @@ sub add {
   return $id;
 }
 
+sub delete_question {
+  my ($self, $id) = @_;
+  delete $self->db->{$id};
+}
+  
+  
 sub vote {
   my ($self, $id, $vote) = @_;
   return unless $vote;
@@ -77,6 +83,12 @@ post '/questions/:id' => {id => ''} => sub {
   }
   $c->render(json => $c->question->show($id));
 } => 'q';
+
+del '/questions/delete/:id' => sub {
+my $c = shift;
+$c->question->delete_question($id);
+$c->render(json => {ok => 'true'});
+}
 
 app->start;
 
