@@ -1,0 +1,92 @@
+#!/usr/bin/perl
+package Moderator::Model::Question;
+use Mojo::Base -base;
+
+use DBM::Deep;
+
+has db => sub {
+  my $self = shift;
+  return $self->{db} ||= DBM::Deep->new("lite_app.db");
+};
+
+sub add {
+  my ($self, $question) = @_;
+  my $id = time.$$;
+  $self->db->{$id} = {question => [$question, time], rank => 1};
+  return $id;
+}
+
+sub vote {
+  my ($self, $id, $vote) = @_;
+  return unless $vote;
+  if ( $vote eq 'up' ) {
+    $self->db->{$id}->{rank}++;
+  } elsif ( $vote eq 'down' ) {
+    $self->db->{$id}->{rank}--;
+  }
+  return $self->db->{$id}->{rank};
+}
+
+sub answer {
+  my ($self, $id, $answer) = @_;
+  return unless $answer;
+  $self->db->{$id}->{answer} = [$answer, time];
+}
+
+sub add_comment {
+  my ($self, $id, $comment) = @_;
+  return unless $comment;
+  push @{$self->db->{$id}->{comment}}, [$comment, time];
+}
+
+sub show {
+  my ($self, $id) = @_;
+  if ( $id ) {
+    $self->db->export->{$id};
+  } else {
+    my $q = $self->db->export;
+    return [map { [$_ => $q->{$_}] } sort { $q->{$b}->{rank} <=> $q->{$a}->{rank} } keys %$q];
+  }
+}
+
+package main;
+use Mojolicious::Lite;
+
+plugin 'AssetPack';
+
+app->asset('nemo.js' => 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js');
+#app->asset('begl.css' => 'css/normalize.css', 'css/main.css');
+
+helper question => sub { state $nemo = Moderator::Model::Question->new };
+
+get '/' => sub {
+  my $c = shift;
+  $c->render('index', questions => $c->question->show);
+};
+
+post '/questions/:id' => {id => ''} => sub {
+  
+  my $c = shift;
+  my $id;
+  if ( $id = $c->param('id') ) {
+    $c->question->vote($id, $c->param('vote'));
+    $c->question->answer($id, $c->param('answer'));
+    $c->question->add_comment($id, $c->param('comment'));
+  } else {
+    $id = $c->question->add($c->param('question'));
+  }
+  $c->render(json => $c->question->show($id));
+} => 'q';
+
+app->start;
+
+__DATA__
+
+@@ index1.html.ep
+% foreach ( @$questions ) {
+  <%= $_->[1]->{question}->[0] %> / <%= $_->[1]->{rank} %> / <%= link_to Up => 'q', {id => $_->[0], vote => 'up'} %> / <%= link_to Down => 'q', {id => $_->[0], vote => 'down'} %><br />
+% }
+<form>
+  <input type="text" name="question" />
+  <button name="submit" value="Submit" />
+</form>
